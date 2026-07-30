@@ -542,7 +542,7 @@ toggleButton.MouseButton1Click:Connect(function()
             end)
         end)
 
-        -- POSITION SYNCHRONIZER (SHADOW ATTACH PIPELINE)
+        -- POSITION SYNCHRONIZER (PERSISTENT LOOP MODIFICATION)
         local function syncPosition()
             if not isAttached or #selectedPlayers == 0 then return end
             
@@ -563,12 +563,9 @@ toggleButton.MouseButton1Click:Connect(function()
             local tOrient = getOrientationPart(selectedPlayer.Character)
             local targetHead = selectedPlayer.Character:FindFirstChild("Head") 
 
+            -- MODIFIED: Target ke marne ya part miss hone par bhi script self-disable nahi hogi!
             if not myHRP or not myHumanoid or not targetHRP or not tOrient then 
-                isAttached = false
-                toggleButton.Text = "[ FUCK ON ]"
-                toggleButton.BackgroundColor3 = Color3.fromRGB(180, 0, 30)
-                cleanUpPhysics()
-                return 
+                return -- Bus next cycle ka wait karega, toggle off nahi karega.
             end
 
             local currentModeToRun = targetMode
